@@ -1,0 +1,35 @@
+{
+  "name": "voodo-desktop-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Voodo Desktop application",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --experimental-modules server.js",
+    "dev": "nodemon --experimental-modules server.js"
+  },
+  "keywords": [
+    "webrtc",
+    "socket.io",
+    "chat",
+    "video"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.1",
+    "socket.io": "^4.7.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/register": "^7.22.5",
+    "nodemon": "^3.0.1"
+  }
+}

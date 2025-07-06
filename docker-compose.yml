@@ -1,26 +1,51 @@
-version: '3.8'
+version: '3'
 
 services:
   app:
     build: .
     ports:
       - "5000:5000"
-    volumes:
-      - .:/app
     environment:
-      - MONGO_URI=mongodb://mongo:27017
-      - DEBUG=True
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongo:27017/voodo-desktop
+      - FRONTEND_URL=http://localhost:5173
+      - TURN_SERVER_URL=turn:coturn:3478
+      - TURN_SERVER_USERNAME=username
+      - TURN_SERVER_CREDENTIAL=password
     depends_on:
       - mongo
-    restart: unless-stopped
-    
+      - coturn
+    restart: always
+
   mongo:
     image: mongo:6
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
-    restart: unless-stopped
+      - mongo-data:/data/db
+    restart: always
+
+  coturn:
+    image: coturn/coturn
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+      - "5349:5349"
+      - "5349:5349/udp"
+      - "49152-65535:49152-65535/udp"
+    environment:
+      - TURN_USERNAME=username
+      - TURN_PASSWORD=password
+    command: >
+      -n --log-file=stdout
+      --min-port=49152 --max-port=65535
+      --lt-cred-mech --fingerprint
+      --no-multicast-peers --no-cli
+      --no-tls --no-dtls
+      --realm=voodo.app
+      --user=username:password
+    restart: always
 
 volumes:
-  mongo_data:
+  mongo-data:

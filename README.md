@@ -1,74 +1,93 @@
-# Voodo Backend Server
+# Voodo Desktop Backend
 
-This is the backend server for the Voodo video/text chat application. It provides the following features:
+This is the backend server for Voodo Desktop, an Omegle-inspired video and text chat application.
 
-- Real-time video chat using WebRTC and Socket.IO
-- Real-time text chat with typing indicators
-- Hangouts (posts) feature
-- WebRTC TURN/STUN server integration
+## Features
 
-## Technology Stack
+- Real-time video chat using WebRTC
+- Text chat with typing indicators
+- Hangouts posts system
+- Socket.IO for real-time communication
+- Self-hosted CoTURN server for NAT traversal
 
-- Python 3.9+
-- FastAPI - Web framework
-- Socket.IO - Real-time communication
-- MongoDB - Database
-- aiortc - WebRTC capabilities
+## Technologies
 
-## Installation
+- Node.js
+- Express.js
+- Socket.IO
+- WebRTC
+- MongoDB
+- CoTURN server
 
-1. Install dependencies:
+## Setup
 
-```bash
-pip install -r requirements.txt
-```
+### Prerequisites
 
-2. Create a `.env` file based on `.env.example`:
+- Node.js 16.x or higher
+- MongoDB (or use the Docker setup)
+- CoTURN server (or use the Docker setup)
 
-```bash
-cp .env.example .env
-```
+### Installation
 
-3. Update the `.env` file with your configuration settings, particularly:
-   - MongoDB connection details
-   - TURN server credentials
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Create a `.env` file based on the `.env.example` file
+4. Start the server:
+   ```
+   npm run dev
+   ```
 
-## Running the Server
+### Docker Setup
 
-```bash
-python run.py
-```
+1. Make sure you have Docker and Docker Compose installed
+2. Run:
+   ```
+   docker-compose up -d
+   ```
 
-The server will start on port 5000 by default (configurable in `.env`).
+## API Endpoints
 
-## API Documentation
+### Hangouts
 
-FastAPI automatically generates API documentation. Access it at:
+- `GET /api/hangouts` - Get all hangouts
+- `GET /api/hangouts/:id` - Get a single hangout
+- `POST /api/hangouts` - Create a new hangout
+- `PUT /api/hangouts/like/:id` - Like a hangout
+- `DELETE /api/hangouts/:id` - Delete a hangout
 
-- Swagger UI: http://localhost:5000/docs
-- ReDoc: http://localhost:5000/redoc
+### Users
+
+- `GET /api/users/turnCredentials` - Get TURN server credentials
+- `GET /api/users/stats` - Get user stats (online count, etc.)
 
 ## Socket.IO Events
 
-### Video Chat Events
+### Video Chat
 
-- `connect` - Client connects to server
-- `disconnect` - Client disconnects
-- `findPartner` - Client requests a video chat partner
-- `callUser` - Initiate a WebRTC call to another user
-- `answerCall` - Answer an incoming WebRTC call
-- `endCall` - End a WebRTC call
+- `findPartner` - Find a new video chat partner
+- `callUser` - Initiate a call to another user
+- `answerCall` - Accept an incoming call
+- `endCall` - End the current call
+- `callEnded` - Notification that a call has ended
+- `partnerFound` - Notification that a partner has been found
+- `updateUserCount` - Update the count of online users
 
-### Text Chat Events
+### Text Chat
 
-- `findTextChat` - Client requests a text chat partner
-- `sendMessage` - Send a text message to chat partner
-- `typing` - Send typing indicator to chat partner
-- `chatConnected` - Notification that a chat connection has been established
-- `chatDisconnected` - Notification that a chat partner has disconnected
+- `findTextChat` - Find a new text chat partner
+- `sendMessage` - Send a message to your chat partner
+- `receiveMessage` - Receive a message from your chat partner
+- `typing` - Notify that you are typing
+- `chatConnected` - Notification that a text chat has been established
+- `chatDisconnected` - Notification that your chat partner has disconnected
 
-## Development and Production
+## Contributing
 
-For development, set `DEBUG=True` in `.env` to enable hot-reloading.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-For production, set `DEBUG=False` and consider using a production ASGI server like Gunicorn with Uvicorn workers.
+## License
+
+This project is proprietary and confidential. Unauthorized copying, transferring or reproduction of the contents of this repository, via any medium is strictly prohibited.

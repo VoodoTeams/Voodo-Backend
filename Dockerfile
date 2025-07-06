@@ -1,15 +1,18 @@
-FROM python:3.10-slim
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Copy package files
+COPY package*.json ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN npm install
 
+# Copy source code
 COPY . .
 
-# Expose the port that the app runs on
+# Expose port
 EXPOSE 5000
 
-# Command to run the application
-CMD ["python", "run.py"]
+# Start the server
+CMD ["npm", "start"]
